@@ -1,11 +1,20 @@
 # aelf-bridge
 
+中文 | [English](./README.md)
+
 ## 目录
   - [简介](#简介)
   - [安装](#安装)
     - [版本管理](#使用版本管理工具)
-    - [使用script标签](#使用script标签)
+    - [使用script标签](#使用script标签)  
   - [使用](#使用)
+    - [demo](#demo)
+    - [初始化](#初始化)
+      - [选项](#选项)
+    - [获取钱包账户信息](#获取钱包账户信息)
+    - [调用合约方法(只读与发送交易)](#调用合约方法(只读与发送交易))
+    - [调用链API](#调用链API)
+    - [disconnect-断开连接](#disconnect-断开连接)
       
 ## 简介
 
@@ -32,6 +41,10 @@ yarn add aelf-bridge
 ```
 
 ## 使用
+
+### demo
+
+[aelf-bridge-demo](https://github.com/AElfProject/aelf-bridge-demo)
 
 ### 初始化
 
@@ -188,7 +201,7 @@ bridgeInstance.api({
 }).then(console.log).catch(console.log)
 ```
 
-### disconnect 断开连接
+### disconnect-断开连接
 
 用于断开与端上的连接，清除交换的公钥信息等
 
