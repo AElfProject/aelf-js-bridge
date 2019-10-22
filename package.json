@@ -1,0 +1,81 @@
+{
+  "name": "aelf-bridge",
+  "version": "0.0.0",
+  "description": "A library to interact with native apps",
+  "main": "dist/aelf-bridge.js",
+  "browser": "dist/aelf-bridge.js",
+  "unpkg": "dist/aelf-bridge.js",
+  "jsdelivr": "dist/aelf-bridge.js",
+  "scripts": {
+    "build": "npm run clean && webpack --progress --colors --display-chunks --config ./build/webpack.prod.js",
+    "release": "standard-version",
+    "commit": "git-cz",
+    "lint": "eslint src",
+    "analyze": "npm run clean && webpack --config ./build/webpack.analyze.js",
+    "clean": "rimraf dist/*"
+  },
+  "author": "atom-yang",
+  "files": [
+    "src",
+    "dist",
+    "README.md",
+    "README.zh-CN.md",
+    "PROTOCOL.md",
+    "PROTOCOL.zh-CN.md",
+    "yarn.lock"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AElfProject/aelf-bridge.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.6.3",
+    "browserify-cipher": "^1.0.1",
+    "elliptic": "^6.5.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "bundle-analyzer": "^0.0.6",
+    "chalk": "^2.4.2",
+    "commitizen": "^4.0.3",
+    "cross-env": "^6.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "file-loader": "^4.2.0",
+    "git-cz": "^3.2.1",
+    "glob": "^7.1.4",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "rimraf": "^3.0.0",
+    "standard-version": "^7.0.0",
+    "unused-files-webpack-plugin": "^3.4.0",
+    "webpack": "^4.41.1",
+    "webpack-bundle-analyzer": "^3.5.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-merge": "^4.2.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "node scripts/verify-commit-msg.js"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
