@@ -73,13 +73,13 @@ export default class PostMessage extends Base {
         reject('No message returned');
       }
       if (!result.id) {
-        reject('No request id');
+        reject(`Response ${result} has no id`);
       }
       if (result.id !== id) {
         return;
       }
       if (!this.eventHandlers[id]) {
-        reject('No correspond event handler');
+        reject(`Response with id ${id} don't have correspond handler`);
       }
       window.removeEventListener(eventType, this.eventHandlers[id]);
       delete this.eventHandlers[id];

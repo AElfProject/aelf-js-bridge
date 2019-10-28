@@ -19,11 +19,15 @@ const defaultOptions = {
   proxyType: PROXY_TYPE.postMessage,
   channelType: CHANNEL_TYPE.sign,
   timeout: 3000,
+  endpoint: '',
   // for post message
   origin: '*',
   checkoutInterval: 200,
   urlPrefix: 'aelf://aelf.io?params=',
-  endpoint: ''
+  // for socket.io
+  socketUrl: 'http://localhost:50845',
+  socketPath: '',
+  messageType: 'bridge'
 };
 
 export default class Bridge {

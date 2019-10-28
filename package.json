@@ -33,6 +33,7 @@
     "@babel/runtime": "^7.6.3",
     "browserify-cipher": "^1.0.1",
     "elliptic": "^6.5.1",
+    "socket.io-client": "^2.3.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
