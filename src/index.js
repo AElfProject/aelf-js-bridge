@@ -56,6 +56,13 @@ export default class Bridge {
     return this.request.disconnect();
   }
 
+  sendMessage(action, params) {
+    return this.request.sendMessage({
+      action,
+      params
+    });
+  }
+
   invoke(params) {
     return this.request.sendMessage({
       action: 'invoke',
