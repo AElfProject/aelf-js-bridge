@@ -70,15 +70,19 @@ bridgeInstance.connect().then(isConnected => {
 
 ```javascript
 const defaultOptions = {
-  proxyType: String, // 默认为`POST_MESSAGE`，与客户端的通信方式，目前仅提供`POST_MESSAGE`一种通信机制，未来会提供`Socket.io`和`Websocket`另两种机制。有效值可通过`AElfBridge.getProxies()`获取。
+  proxyType: String, // 默认为`POST_MESSAGE`，与客户端的通信方式，目前仅提供`POST_MESSAGE`和`SOCKET.IO`两种通信机制，未来还会提供`Websocket`机制。有效值可通过`AElfBridge.getProxies()`获取。
   channelType: String, // 默认为`SIGN`，请求与响应的序列化方式，即Dapp与客户端互相交换公私钥，通过私钥签名，公钥验证签名信息，从而验证信息是否被篡改。另提供对称加密的方式，参数值为`ENCRYPT`，使用共享公钥进行对称加密。参数有效值通过`AElfBridge.getChannels()`获取。
   timeout: Number, // 默认为`3000`，请求的超时时间，单位为毫秒，目前只支持一个全局的超时时间。
   appId: String, // 默认为空，Dapp无特殊需求的情况下不指定即可，如需指定，需要每次随机产生一个32位hex编码的id。用于与客户端通信的凭证，指定Dapp ID。未指定的情况下，本library内部会进行处理，首次运行产生一个随机的32位hex编码的uuid，连接成功后存入`localStorage`，之后则从`localStorage`中取值，如无，则再产生随机id。
-  // `POST_MESSAGE`通信方式下需要的选项
+  endpoint: String, // 默认为空，链节点的地址，为空的情况下，客户端默认使用内部保存的主链地址，也可指定向特定的节点发送请求。
+  // `POST_MESSAGE`通信方式下可选的选项
   origin: String, // 默认为`*`，`postMessage`函数的第二参数，绝大多数情况下不需要指定
   checkoutTimeout: Number, // 默认为`200`，单位毫秒，检查客户端注入的`postMessage`，绝大多数情况下不需要指定
   urlPrefix: String, // 默认为`aelf://aelf.io?params=`，序列化后的信息需要通信的协议头，用于客户端做区分，如果客户端没有特殊改变的情况下，不需要改变
-  endpoint: String, // 默认为空，链节点的地址，为空的情况下，客户端默认使用内部保存的主链地址，也可指定向特定的节点发送请求。
+  // `socket.io`通信方式下可选的选项
+  socketUrl: String, // websocket连接的地址，默认为`http://localhost:50845`
+  socketPath: String, // 连接地址的path，默认为空
+  messageType: String // 传递socket.io消息的type，默认为`bridge`
 }
 ```
 

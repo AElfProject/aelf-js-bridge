@@ -2,9 +2,12 @@
 
 ## 通信方式
 
-目前`aelf-bridge`暂时只提供了一种通信机制，即客户端向Dapp所在的WebView复写`postMessage`方法，将原有的`postMessage`保存为`window.originalPostMessage`，覆盖新的`postMessage`方法。客户端具体如何注入复写参见[ONT参考链接](https://github.com/ontio-cyano/cyano-android/blob/master/app/src/main/java/com/github/ont/cyanowallet/ontid/web/CyanoWebView.java)
+目前`aelf-bridge`提供了多种通信机制：
 
-其他的通信方式有`webSocket`，目前待支持
+1. `postMessage`, 即客户端向Dapp所在的WebView复写`postMessage`方法，将原有的`postMessage`保存为`window.originalPostMessage`，覆盖新的`postMessage`方法。客户端具体如何注入复写参见[ONT参考链接](https://github.com/ontio-cyano/cyano-android/blob/master/app/src/main/java/com/github/ont/cyanowallet/ontid/web/CyanoWebView.java)
+2. `websocket`, 通过`webSocket`的方式通信，目前支持`Socket.io`，原生的`websocket`待支持
+
+通信方式同时只能选择一种
 
 ## 协议标准
 
@@ -476,7 +479,9 @@ const CHAIN_APIS = [
 
 ## 通信序列化方式
 
-对上述的通信数据需要进行序列化操作，然后才能够发送信息
+以下内容，如果您只是以为普通的使用者，则无需阅读。如果您是需要在Android/iOS端上实现相应的协议接口，支持`aelf-bridge`标准下的协议，则需要详细阅读
+
+对上述的通信数据需要进行序列化操作，然后才能够发送信息。接收消息需要进行反序列化操作。
 
 ### postMessage
 
@@ -530,3 +535,7 @@ aelf://aelf.io?params=JTdCJTIyY......mU0OGMlMjIlN0Q=
 ```
 JTdCJTIyaWQlM......3VsdCUyMiUzQSU3QiUyMI4NGE1JTIyJTdEJTdEJTdE
 ```
+
+### websocket
+
+目前无需序列化
