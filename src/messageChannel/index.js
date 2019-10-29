@@ -42,6 +42,6 @@ export default class MessageChannel {
   }
 
   disconnect() {
-    return this.channel.disconnect();
+    return this.proxy.close() && this.channel.disconnect();
   }
 }

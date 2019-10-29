@@ -34,6 +34,10 @@ export default class Proxy {
     this.proxy = new RealProxy(this.options);
   }
 
+  close() {
+    return this.proxy.close();
+  }
+
   sendMessage(request) {
     request.appId = this.options.appId;
     return this.proxy.sendMessage(request).then(res => {

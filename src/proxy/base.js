@@ -13,11 +13,7 @@ export default class BaseProxy {
     this.proxyType = type;
   }
 
-  serializeMessage() {
-    throw new Error('You should implement this method serializeMessage');
-  }
-
-  deserializeMessage() {
-    throw new Error('You should implement this method deserializeMessage');
+  sendMessage() {
+    throw new Error('You should implement this method sendMessage');
   }
 }

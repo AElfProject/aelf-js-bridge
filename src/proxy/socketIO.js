@@ -49,7 +49,15 @@ export default class SocketIO extends Base {
     });
   }
 
+  close() {
+    // clean connection
+    return this.socket && this.socket.close();
+  }
+
   sendMessage(request) {
+    if (!this.socket.connected) {
+      this.socket.open();
+    }
     const reqId = randomId();
     request.id = reqId;
     return new Promise((resolve, reject) => {

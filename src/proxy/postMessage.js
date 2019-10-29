@@ -42,6 +42,11 @@ export default class PostMessage extends Base {
     });
   }
 
+  close() {
+    // clean resource
+    return true;
+  }
+
   send(data) {
     const message = `${this.options.urlPrefix}${serializeMessage(data)}`;
     if (window.originalPostMessage) {
