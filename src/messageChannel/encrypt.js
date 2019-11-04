@@ -64,6 +64,7 @@ export default class Encrypt {
     this.sharedKey = null;
     this.sharedKeyHex = null;
     this.isConnected = false;
+    this.proxy.close();
     return true;
   }
 
@@ -84,6 +85,7 @@ export default class Encrypt {
         publicKey: remotePublicKey
       } = result.data;
       this.remotePublicKeyEncoded = remotePublicKey;
+      // todo: 修改为对应的ec
       this.remoteKeyPair = ec.keyFromPublic(remotePublicKey, 'hex');
       this.sharedKey = this.keypair.derive(this.remoteKeyPair.getPublic());
       this.sharedKeyHex = this.sharedKey.toString('hex');

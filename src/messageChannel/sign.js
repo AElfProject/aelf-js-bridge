@@ -35,6 +35,7 @@ export default class Sign {
     this.remoteKeyPair = null;
     this.remotePublicKeyEncoded = null;
     this.isConnected = false;
+    this.proxy.close();
     return true;
   }
 
