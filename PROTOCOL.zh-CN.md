@@ -59,7 +59,7 @@
   "action": "connect",
   "params": {
     "encryptAlgorithm": "secp256k1", // 公私钥生成的椭圆曲线函数算法类型，客户端根据此值生成对应类型的公私钥
-    "publickKey": "046814df1b6d6274a6cc8c250d6fae46e06d617116f4fdd63b1b4f564768243aeec6ccbb3247c12f46e2064fb00731938dd2ef821ec9feb1942f7828eae1cc056c", // 可以公开的公钥
+    "publicKey": "046814df1b6d6274a6cc8c250d6fae46e06d617116f4fdd63b1b4f564768243aeec6ccbb3247c12f46e2064fb00731938dd2ef821ec9feb1942f7828eae1cc056c", // 可以公开的公钥
     "random": "2b32a8376316403591b5b01ae0013854", // 随机的32位hex id
     "signature": "e3740eb8426dffa60026da60d42f53e1f6a84a996a8dd8f3ae73311add9b91657dcfa284be70da444a52c88e3e0bc6350eed7cabc1975d973f964a3fda166c841" // 使用私钥对random字段签名的结果
   }
@@ -366,7 +366,7 @@ const CHAIN_APIS = [
   "action": "connect",
   "params": {
     "encryptAlgorithm": "curve25519", // 公私钥生成的椭圆曲线函数算法类型，客户端根据此值生成对应类型的公私钥
-    "publickKey": "046814df1b6d6274a6cc8c250d6fae46e06d617116f4fdd63b1b4f564768243aeec6ccbb3247c12f46e2064fb00731938dd2ef821ec9feb1942f7828eae1cc056c", // 可以公开的公钥
+    "publicKey": "046814df1b6d6274a6cc8c250d6fae46e06d617116f4fdd63b1b4f564768243aeec6ccbb3247c12f46e2064fb00731938dd2ef821ec9feb1942f7828eae1cc056c", // 可以公开的公钥
     "cipher": "aes-256-cbc" // 对称加密使用的算法
   }
 }
