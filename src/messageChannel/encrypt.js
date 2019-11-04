@@ -103,11 +103,11 @@ export default class Encrypt {
     }
     const originalParams = serializeMessage(message.params);
     const {
-      encryptedParams,
+      encrypted,
       iv
     } = this.encrypt(originalParams, Buffer.from(this.sharedKeyHex, 'hex'));
     const params = {
-      encryptedParams, // base64 encoded
+      encryptedParams: encrypted, // base64 encoded
       iv // hex encoded
     };
     const response = await this.proxy.sendMessage({
