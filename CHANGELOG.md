@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/AElfProject/aelf-bridge/compare/v0.0.2...v0.0.3) (2019-11-04)
+
+
+### Features
+
+* 🎸 add proxy close function ([3c85891](https://github.com/AElfProject/aelf-bridge/commit/3c85891a90140bc9e105a1ab848f6eb30b617621))
+
+
+### Bug Fixes
+
+* 🐛 change when to close ([c896636](https://github.com/AElfProject/aelf-bridge/commit/c896636a3d218340b667b1e8d3602fb271b5291d))
+* 🐛 rename params name ([5888237](https://github.com/AElfProject/aelf-bridge/commit/588823718f6f0f3480c714e13010f3d96cef1b8a))
+
 ### [0.0.2](https://github.com/AElfProject/aelf-bridge/compare/v0.0.1...v0.0.2) (2019-10-28)
 
 
