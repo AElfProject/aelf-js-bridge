@@ -4,7 +4,7 @@
  */
 import * as elliptic from 'elliptic';
 import {
-  randomId,
+  getUnixTimestamp,
   serializeMessage,
   deserializeMessage
 } from '../utils/utils';
@@ -19,7 +19,6 @@ export default class Sign {
     this.publicKeyEncoded = this.publicKey.encode('hex');
     this.proxy = proxy;
     this.encryptAlgorithm = encryptAlgorithm;
-    this.remotePublicKeyEncoded = null;
     this.remoteKeyPair = null;
     this.isConnected = false;
   }
@@ -40,14 +39,14 @@ export default class Sign {
   }
 
   async connect() {
-    const random = randomId();
-    const signature = this.sign(random);
+    const timestamp = getUnixTimestamp();
+    const signature = this.sign(Buffer.from(String(timestamp)));
     try {
       const { result = {} } = await this.proxy.sendMessage({
         action: 'connect',
         params: {
           publicKey: this.publicKeyEncoded,
-          random,
+          timestamp,
           encryptAlgorithm: this.encryptAlgorithm,
           signature
         }
@@ -104,7 +103,10 @@ export default class Sign {
     if (!this.isConnected) {
       throw new Error('You need to log in before sending messages');
     }
-    const originalParams = serializeMessage(message.params);
+    const originalParams = serializeMessage({
+      ...message.params,
+      timestamp: getUnixTimestamp()
+    });
     const signature = this.sign(Buffer.from(originalParams, 'base64'));
     const params = {
       signature,

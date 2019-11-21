@@ -31,11 +31,7 @@
     "code": 0, // 0为返回正确，其余值表示返回错误
     "msg": "success", // 简单的错误信息
     "error": [], // 如果有错误，则将错误填充到数组中
-    "data": {
-      "random": "31a0a733be2245f0b270a25762b4ded4",
-      "publicKey": "04b7c67eb59703d4483ba94ea99d197aaccb4262a45f7797c0fb67e60d28b63b603d7d6755b6f8da70bff0b348b091195461f872ed0618c505b059c3a55879cce7",
-      "signature": "e3740eb8426dffa60026da60d42f53e1f6a84a996a8dd8f3ae73311add9b91657dcfa284be70da444a52c88e3e0bc6350eed7cabc1975d973f964a3fda166c841" // 用私钥对random字段签名的结果
-    } // 实际的返回内容
+    "data": {} // 实际的返回内容
   }
 }
 ```
@@ -43,6 +39,14 @@
 返回信息需要为此标准，其余标准不会被接受
 
 ## 请求接口列表
+
+因接口请求可能会被拦截，拦截者无需知道具体的公私钥，可以直接发送拦截的请求。例如转账交易被拦截，那么可以发送重复请求攻击。
+为了防止重复攻击，所有的信息均加入了timestamp，即unix时间戳。native端获取时间戳，如果发送的时间戳，小于等于当前时间，大于等于当前时间的前4分钟（有效时间待定），则是有效的请求。
+
+目前在所有的params中均加入了`timestamp`参数，为unix时间戳，10位number
+
+**签名方式通信时，需要同时校验签名和时间戳，需要签名与时间戳均有效，因为签名通信时信息是不进行加密的，只会有一层编码**
+**加密方式通信时，需要解密信息后校验有效时间**
 
 **现有的action类型，以及详细的Request/Response参数如下**
 
@@ -60,8 +64,8 @@
   "params": {
     "encryptAlgorithm": "secp256k1", // 公私钥生成的椭圆曲线函数算法类型，客户端根据此值生成对应类型的公私钥
     "publicKey": "046814df1b6d6274a6cc8c250d6fae46e06d617116f4fdd63b1b4f564768243aeec6ccbb3247c12f46e2064fb00731938dd2ef821ec9feb1942f7828eae1cc056c", // 可以公开的公钥
-    "random": "2b32a8376316403591b5b01ae0013854", // 随机的32位hex id
-    "signature": "e3740eb8426dffa60026da60d42f53e1f6a84a996a8dd8f3ae73311add9b91657dcfa284be70da444a52c88e3e0bc6350eed7cabc1975d973f964a3fda166c841" // 使用私钥对random字段签名的结果
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
+    "signature": "e3740eb8426dffa60026da60d42f53e1f6a84a996a8dd8f3ae73311add9b91657dcfa284be70da444a52c88e3e0bc6350eed7cabc1975d973f964a3fda166c841" // 使用私钥对timestamp字段签名的结果
   }
 }
 ```
@@ -76,7 +80,7 @@
     "msg": "success", // 简单的错误信息
     "error": [], // 如果有错误，则将错误填充到数组中
     "data": {
-      "random": "31a0a733be2245f0b270a25762b4ded4", // 客户端生成的随机数，被签名
+      "random": "31a0a733be2245f0b270a25762b4ded4", // 客户端，即native端生成的随机数，被签名。因财产保存在native端，返回信息的有效期可以暂时忽略
       "publicKey": "04b7c67eb59703d4483ba94ea99d197aaccb4262a45f7797c0fb67e60d28b63b603d7d6755b6f8da70bff0b348b091195461f872ed0618c505b059c3a55879cce7", // 客户端的公钥
       "signature": "e3740eb8426dffa60026da60d42f53e1f6a84a996a8dd8f3ae73311add9b91657dcfa284be70da444a52c88e3e0bc6350eed7cabc1975d973f964a3fda166c841" // 用私钥对random字段签名的结果
     } // 实际的返回内容
@@ -93,7 +97,9 @@
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
   "action": "account",
-  "params": {}
+  "params": {
+    "timestamp": 1574309260 // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
+  }
 }
 ```
 
@@ -107,8 +113,12 @@
     "msg": "success", // 简单的错误信息
     "error": [], // 如果有错误，则将错误填充到数组中
     "data": {
-      "accountName": "test", // 账户名称
-      "address": "adagafadafa", // 钱包地址
+      "accounts": [
+        {
+          "name": "test",
+          "address": "adasfa"
+        }
+      ], // 账户信息
       "chains": [
         {
           "url": "http://1.1.1.1:8000", // 链节点地址
@@ -143,6 +153,7 @@
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
   "action": "invoke", // 调用合约只读方法为`invokeRead`
   "params": {
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
     "endpoint": "", // 链节点地址，非必填，为空或不传时，钱包App使用自己存储的主链地址
     "contractAddress": "qweqweqeq", // 合约地址
     "contractMethod": "Transfer", // 合约方法名
@@ -186,6 +197,7 @@
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
   "action": "api", // 调用链的api
   "params": {
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
     "endpoint": "", // 链节点地址，非必填，为空或不传时使用钱包端存储的主链地址
     "apiPath": "/api/blockChain/blockHeight", // api路径
     "arguments": [] // 传递的参数，实际为`aelf.chain.{method}`方法使用的参数
@@ -232,7 +244,9 @@ const CHAIN_APIS = [
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
   "action": "disconnect", // 调用合约只读方法为`invokeRead`
-  "params": {}
+  "params": {
+    "timestamp": 1574309260 // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
+  }
 }
 ```
 
@@ -273,6 +287,7 @@ const CHAIN_APIS = [
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
   "action": "invoke", // 调用合约只读方法为`invokeRead`
   "params": {
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
     "endpoint": "", // 链节点地址，非必填，为空或不传时，钱包App使用自己存储的主链地址
     "contractAddress": "qweqweqeq", // 合约地址
     "contractMethod": "Transfer", // 合约方法名
@@ -401,6 +416,7 @@ const CHAIN_APIS = [
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
   "action": "invoke", // 调用合约只读方法为`invokeRead`
   "params": {
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
     "endpoint": "", // 链节点地址，非必填，为空或不传时，钱包App使用自己存储的主链地址
     "contractAddress": "qweqweqeq", // 合约地址
     "contractMethod": "Transfer", // 合约方法名

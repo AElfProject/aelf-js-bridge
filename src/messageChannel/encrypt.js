@@ -7,7 +7,8 @@ import { createCipheriv, createDecipheriv } from 'browserify-cipher';
 import {
   randomId,
   serializeMessage,
-  deserializeMessage
+  deserializeMessage,
+  getUnixTimestamp
 } from '../utils/utils';
 
 const encryptAlgorithm = 'curve25519';
@@ -21,7 +22,6 @@ export default class Encrypt {
     this.publicKeyEncoded = this.publicKey.encode('hex');
     this.proxy = proxy;
     this.encryptAlgorithm = encryptAlgorithm;
-    this.remotePublicKeyEncoded = null;
     this.remoteKeyPair = null;
     this.sharedKey = null;
     this.sharedKeyHex = null;
@@ -101,7 +101,10 @@ export default class Encrypt {
     if (!this.isConnected) {
       throw new Error('You need to log in before sending messages');
     }
-    const originalParams = serializeMessage(message.params);
+    const originalParams = serializeMessage({
+      ...message.params,
+      timestamp: getUnixTimestamp()
+    });
     const {
       encrypted,
       iv

@@ -5,7 +5,7 @@
 import MessageChannel from './messageChannel';
 import Proxy from './proxy';
 import {
-  randomId
+  getUUIDForUrl
 } from './utils/utils';
 import StorageService from './utils/storage';
 import {
@@ -46,14 +46,19 @@ export default class Bridge {
   constructor(options = defaultOptions) {
     this.options = {
       ...defaultOptions,
-      appId: StorageService.getAppId() || randomId(),
+      appId: StorageService.getAppId() || getUUIDForUrl(),
       ...options
     };
     this.request = new MessageChannel(this.options);
   }
 
   connect() {
-    return this.request.connect();
+    return this.request.connect().then(res => {
+      if (res) {
+        StorageService.setAppId(this.options.appId);
+      }
+      return res;
+    });
   }
 
   disconnect() {

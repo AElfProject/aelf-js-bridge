@@ -6,7 +6,6 @@ import PostMessage from './postMessage';
 import SocketIO from './socketIO';
 import WS from './ws';
 import { PROXY_TYPE } from '../common/constants';
-import StorageService from '../utils/storage';
 
 const PROXIES = {
   [PROXY_TYPE.postMessage]: PostMessage,
@@ -40,11 +39,6 @@ export default class Proxy {
 
   sendMessage(request) {
     request.appId = this.options.appId;
-    return this.proxy.sendMessage(request).then(res => {
-      if (res) {
-        StorageService.setAppId(this.options.appId);
-      }
-      return res;
-    });
+    return this.proxy.sendMessage(request);
   }
 }
