@@ -99,8 +99,12 @@ res = {
   "msg": "success",
   "errors": [],
   "data": {
-    "accountName": "test",
-    "address": "XxajQQtYxnsgQp92oiSeENao9XkmqbEitDD8CJKfDctvAQmH6",
+    "accounts": [
+      {
+        "name": "test",
+        "address": "XxajQQtYxnsgQp92oiSeENao9XkmqbEitDD8CJKfDctvAQmH6"
+      }
+     ],
     "chains": [
       {
         "url": "http://13.231.179.27:8000",
