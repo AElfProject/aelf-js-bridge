@@ -366,7 +366,9 @@ const CHAIN_APIS = [
 
 ### 加密
 
-与上述签名类型，端与Dapp各自有自己的公私钥，椭圆曲线函数一般为`curve25519`，能够通过交换公钥，然后公私钥对在第三方公钥的基础上，产生一个共享公钥。`curve25519`能够保证两方根据公钥产生的共享公钥是一直的，从而可以使用这个公钥作为对称加密的`passpharse`。
+与上述签名类型，端与Dapp各自有自己的公私钥，椭圆曲线函数一般为`curve25519`，能够通过交换公钥，然后公私钥对在第三方公钥的基础上，产生一个共享公钥。`curve25519`能够保证两方根据公钥产生的共享公钥是一致的，然后在共享公钥的基础上使用HKDF-sha256，扩展公钥到256bit。
+
+关于HKDF，可以参考[Python的实现](https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/)
 
 #### connect
 
@@ -397,13 +399,14 @@ const CHAIN_APIS = [
     "msg": "success", // 简单的错误信息
     "error": [], // 如果有错误，则将错误填充到数组中
     "data": {
+      "random": "31a0a733be2245f0b270a25762b4ded4", // 客户端生成的随机数，hex编码，用于HKDF的salt值
       "publicKey": "04b7c67eb59703d4483ba94ea99d197aaccb4262a45f7797c0fb67e60d28b63b603d7d6755b6f8da70bff0b348b091195461f872ed0618c505b059c3a55879cce7" // 客户端的公钥
     } // 实际的返回内容
   }
 }
 ```
 
-通过直接交换公钥，两端生成一致的共享公钥
+通过直接交换公钥，两端生成一致的共享公钥,根据共享公钥，使用HKDF-sha256，生成256 bit(即32Bytes)的passphare用于加密，保证随机性。
 
 #### 其余类型的API
 
