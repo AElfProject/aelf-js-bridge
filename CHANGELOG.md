@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/AElfProject/aelf-bridge/compare/v0.0.5...v0.0.6) (2019-12-03)
+
+
+### Features
+
+* 🎸 use HKDF to expand shared key ([8a349a2](https://github.com/AElfProject/aelf-bridge/commit/8a349a2a95be5736ae176ff7878b7ab49c3786be))
+
 ### [0.0.5](https://github.com/AElfProject/aelf-bridge/compare/v0.0.4...v0.0.5) (2019-11-21)
 
 
