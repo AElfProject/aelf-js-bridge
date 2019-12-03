@@ -10,6 +10,7 @@ import {
   deserializeMessage,
   getUnixTimestamp
 } from '../utils/utils';
+import HKDF from '../utils/hkdf';
 
 const encryptAlgorithm = 'curve25519';
 const cipher = 'aes-256-cbc';
@@ -29,9 +30,15 @@ export default class Encrypt {
     this.cipher = cipher;
   }
 
+  /**
+   * encrypt message
+   * @param {string} data base64 decoded
+   * @param {Buffer} passpharse
+   * @return {{encrypted: *, iv: *}}
+   */
   encrypt(data, passpharse) {
     const iv = randomId();
-    const aesCipher = createCipheriv(this.cipher, passpharse.slice(0, 32), Buffer.from(iv, 'hex'));
+    const aesCipher = createCipheriv(this.cipher, passpharse, Buffer.from(iv, 'hex'));
     const encrypted = Buffer.concat([
       aesCipher.update(Buffer.from(data, 'base64')),
       aesCipher.final()
@@ -42,8 +49,15 @@ export default class Encrypt {
     };
   }
 
+  /**
+   * decrypt message
+   * @param {string} encrypted base64 decoded
+   * @param {Buffer} passpharse
+   * @param {string} iv hex
+   * @return {string}
+   */
   decrypt(encrypted, passpharse, iv) {
-    const decipher = createDecipheriv(this.cipher, passpharse.slice(0, 32), Buffer.from(iv, 'hex'));
+    const decipher = createDecipheriv(this.cipher, passpharse, Buffer.from(iv, 'hex'));
     const decrypted = Buffer.concat([
       decipher.update(Buffer.from(encrypted, 'base64')),
       decipher.final()
@@ -82,13 +96,16 @@ export default class Encrypt {
         return false;
       }
       const {
-        publicKey: remotePublicKey
+        publicKey: remotePublicKey,
+        random
       } = result.data;
       this.remotePublicKeyEncoded = remotePublicKey;
       // todo: 修改为对应的ec
-      this.remoteKeyPair = ec.keyFromPublic(remotePublicKey, 'hex');
+      this.remoteKeyPair = ec.keyFromPublic(this.remotePublicKeyEncoded, 'hex');
       this.sharedKey = this.keypair.derive(this.remoteKeyPair.getPublic());
       this.sharedKeyHex = this.sharedKey.toString('hex');
+      const hkdf = new HKDF('sha256', Buffer.from(random, 'hex'), this.sharedKeyHex);
+      this.derivedKey = hkdf.expand();
       this.isConnected = true;
       return result.data;
     } catch (e) {
@@ -108,7 +125,7 @@ export default class Encrypt {
     const {
       encrypted,
       iv
-    } = this.encrypt(originalParams, Buffer.from(this.sharedKeyHex, 'hex'));
+    } = this.encrypt(originalParams, this.derivedKey);
     const params = {
       encryptedParams: encrypted, // base64 encoded
       iv // hex encoded
@@ -124,7 +141,7 @@ export default class Encrypt {
       encryptedResult, // base64 encoded
       iv: remoteIv // hex encoded
     } = result;
-    const decryptedResponse = this.decrypt(encryptedResult, Buffer.from(this.sharedKeyHex, 'hex'), remoteIv);
+    const decryptedResponse = this.decrypt(encryptedResult, this.derivedKey, remoteIv);
     return deserializeMessage(decryptedResponse);
   }
 }
