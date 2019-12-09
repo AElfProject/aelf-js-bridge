@@ -71,7 +71,11 @@ export default class PostMessage extends Base {
   }
 
   addEventListener(id, resolve, reject, timeout) {
+    let timer = null;
     this.eventHandlers[id] = event => {
+      if (timer) {
+        clearTimeout(timer);
+      }
       const message = event.data;
       const result = deserializeMessage(message);
       if (!result) {
@@ -92,7 +96,7 @@ export default class PostMessage extends Base {
     };
     window.addEventListener(eventType, this.eventHandlers[id]);
     if (timeout && timeout > 0 && !this.isCheckingInjectedPostMessage) {
-      setTimeout(() => {
+      timer = setTimeout(() => {
         reject('Time out');
         window.removeEventListener(eventType, this.eventHandlers[id]);
       }, parseInt(timeout, 10));

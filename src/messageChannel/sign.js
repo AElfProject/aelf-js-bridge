@@ -69,7 +69,7 @@ export default class Sign {
       return result.data;
     } catch (e) {
       this.isConnected = false;
-      throw this.isConnected;
+      throw e;
     }
   }
 

@@ -18,7 +18,7 @@ const defaultOptions = {
   // common options
   proxyType: PROXY_TYPE.postMessage,
   channelType: CHANNEL_TYPE.sign,
-  timeout: 3000,
+  timeout: 30 * 60 * 1000,
   endpoint: '',
   // for post message
   origin: '*',
