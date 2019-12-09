@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/AElfProject/aelf-bridge/compare/v0.0.6...v0.0.7) (2019-12-09)
+
+
+### Features
+
+* 🎸 increase timeout for postMessage ([01923dc](https://github.com/AElfProject/aelf-bridge/commit/01923dc590fb63650db25d5233650ffd676e1705))
+
 ### [0.0.6](https://github.com/AElfProject/aelf-bridge/compare/v0.0.5...v0.0.6) (2019-12-03)
 
 

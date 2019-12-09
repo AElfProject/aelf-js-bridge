@@ -1,6 +1,6 @@
 {
   "name": "aelf-bridge",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A library to interact with native apps",
   "main": "dist/aelf-bridge.js",
   "browser": "dist/aelf-bridge.js",
