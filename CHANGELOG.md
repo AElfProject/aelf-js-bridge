@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/AElfProject/aelf-bridge/compare/v0.0.7...v0.0.8) (2019-12-13)
+
+
+### Bug Fixes
+
+* 🐛 fix error handle when receiving many messages ([6d08da6](https://github.com/AElfProject/aelf-bridge/commit/6d08da6ebd897d5e838a3532db984c49114794e8))
+
 ### [0.0.7](https://github.com/AElfProject/aelf-bridge/compare/v0.0.6...v0.0.7) (2019-12-09)
 
 
