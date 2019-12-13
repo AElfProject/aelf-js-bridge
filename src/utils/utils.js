@@ -18,8 +18,9 @@ export const serializeMessage = data => {
 };
 
 export const deserializeMessage = str => {
-  let result = decodeURIComponent(atob(str));
+  let result = {};
   try {
+    result = decodeURIComponent(atob(str));
     result = JSON.parse(result);
   } catch (e) {}
   return result;

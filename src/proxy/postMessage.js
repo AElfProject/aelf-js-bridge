@@ -73,32 +73,26 @@ export default class PostMessage extends Base {
   addEventListener(id, resolve, reject, timeout) {
     let timer = null;
     this.eventHandlers[id] = event => {
-      if (timer) {
-        clearTimeout(timer);
-      }
       const message = event.data;
       const result = deserializeMessage(message);
-      if (!result) {
-        reject('No message returned');
+      if (result && result.id && result.id === id) {
+        if (!this.eventHandlers[id]) {
+          reject(`Response with id ${id} don't have correspond handler`);
+        }
+        window.removeEventListener(eventType, this.eventHandlers[id]);
+        delete this.eventHandlers[id];
+        resolve(result);
+        if (timer) {
+          clearTimeout(timer);
+        }
       }
-      if (!result.id) {
-        reject(`Response ${result} has no id`);
-      }
-      if (result.id !== id) {
-        return;
-      }
-      if (!this.eventHandlers[id]) {
-        reject(`Response with id ${id} don't have correspond handler`);
-      }
-      window.removeEventListener(eventType, this.eventHandlers[id]);
-      delete this.eventHandlers[id];
-      resolve(result);
     };
     window.addEventListener(eventType, this.eventHandlers[id]);
     if (timeout && timeout > 0 && !this.isCheckingInjectedPostMessage) {
       timer = setTimeout(() => {
         reject('Time out');
         window.removeEventListener(eventType, this.eventHandlers[id]);
+        delete this.eventHandlers[id];
       }, parseInt(timeout, 10));
     }
   }
