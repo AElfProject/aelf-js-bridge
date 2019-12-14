@@ -116,7 +116,8 @@
       "accounts": [
         {
           "name": "test",
-          "address": "adasfa"
+          "address": "adasfa",
+          "publicKey": "asadasdas" // hex
         }
       ], // 账户信息
       "chains": [
