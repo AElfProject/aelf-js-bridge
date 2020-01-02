@@ -13,7 +13,7 @@
 
 ### request标准格式
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31", // request id, 用于区分是哪个request，每次请求都产生随机的id，客户端返回时需要携带此id，保证请求与相应一一对应
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取, 随机产生32位hex
@@ -24,7 +24,7 @@
 
 ### response标准格式
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31", // request id, 从request中获取，保证resquest与response一一对应
   "result": {
@@ -56,7 +56,7 @@
 
 #### Request
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31", // request id, 用于区分是哪个request，每次请求都产生随机的id
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取, 随机产生32位hex
@@ -72,7 +72,7 @@
 
 #### Response
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31", // request id, 从request中获取
   "result": {
@@ -92,7 +92,7 @@
 
 #### Request
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -105,7 +105,7 @@
 
 #### Response
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -148,7 +148,7 @@
 
 #### Request
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -175,7 +175,7 @@
 
 #### Response
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -192,7 +192,7 @@
 #### api-调用链的API
 
 #### Request
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -208,7 +208,7 @@
 
 #### Response
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -240,7 +240,7 @@ const CHAIN_APIS = [
 
 #### Request
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -253,7 +253,7 @@ const CHAIN_APIS = [
 
 #### Response
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -282,7 +282,7 @@ const CHAIN_APIS = [
 ##### Request
 
 * 处理前
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -308,7 +308,7 @@ const CHAIN_APIS = [
 ```
 
 * 处理后
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -332,7 +332,7 @@ const CHAIN_APIS = [
 ##### Response
 
 * 处理前
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -347,7 +347,7 @@ const CHAIN_APIS = [
 ```
 
 * 处理后
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -377,7 +377,7 @@ const CHAIN_APIS = [
 
 ##### Request
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31", // request id, 用于区分是哪个request，每次请求都产生随机的id
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取, 随机产生32位hex
@@ -392,7 +392,7 @@ const CHAIN_APIS = [
 
 ##### Response
 
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31", // request id, 从request中获取
   "result": {
@@ -414,7 +414,7 @@ const CHAIN_APIS = [
 ##### Request
 
 * 处理前
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -440,7 +440,7 @@ const CHAIN_APIS = [
 ```
 
 * 处理后
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -464,7 +464,7 @@ const CHAIN_APIS = [
 ##### Response
 
 * 处理前
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -479,7 +479,7 @@ const CHAIN_APIS = [
 ```
 
 * 处理后
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
@@ -518,7 +518,7 @@ Dapp与客户端相互的信息交换可理解为请求与响应。
 客户端经过与之相反的步骤，将请求信息反序列化，得到原始的信息
 
 * 处理前
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
@@ -541,7 +541,7 @@ aelf://aelf.io?params=JTdCJTIyY......mU0OGMlMjIlN0Q=
 步骤与请求的序列化步骤相同，去掉第四步，不需要拼接前缀
 
 * 处理前
-```json
+```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
   "result": {
