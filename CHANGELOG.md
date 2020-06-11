@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/AElfProject/aelf-bridge/compare/v0.0.8...v0.0.9) (2020-06-11)
+
+
+### Features
+
+* 🎸 isomorphism aelf-bridge and aelf-sdk ([a9b8d2d](https://github.com/AElfProject/aelf-bridge/commit/a9b8d2d87e9cd84e07eeff97188d1f7d6eaff5b1))
+
 ### [0.0.8](https://github.com/AElfProject/aelf-bridge/compare/v0.0.7...v0.0.8) (2019-12-13)
 
 
