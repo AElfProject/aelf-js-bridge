@@ -6,7 +6,7 @@
   - [简介](#简介)
   - [安装](#安装)
     - [版本管理](#使用版本管理工具)
-    - [使用script标签](#使用script标签)    
+    - [使用script标签](#使用script标签)
   - [使用](#使用)
     - [概述](#概述)
     - [初始化](#初始化)
@@ -15,12 +15,14 @@
     - [调用合约方法(只读与发送交易)](#调用合约方法(只读与发送交易))
     - [调用链API](#调用链API)
     - [disconnect-断开连接](#disconnect-断开连接)
-      
+
 ## 简介
 
 为了给dApps提供与链交互的能力，同时为了保护钱包信息，隔离dApps与钱包信息，aelf-bridge可用于与钱包App之间的交互，钱包App保存有AElf的钱包信息，能够与AElf链直接交流。
 
 此处描述的钱包App可能包括移动端(iOS/Android)原生App，桌面版应用等。
+
+为减少与`aelf-sdk`之间的API差异，同构了`aelf-bridge`与`aelf-sdk`之间绝大多数的API使用逻辑
 
 
 ## 安装
@@ -67,7 +69,7 @@ const bridgeInstance = new AElfBridge({
   timeout: 5000 // ms, 毫秒
 });
 
-// 初始化实例后需要进行连接，与需要通信的端交换公钥，传递appId等
+// 初始化实例后需要进行连接，与需要通信的端交换公钥，传递appId等，如若不手动connect，发送信息前会自动建立connection
 bridgeInstance.connect().then(isConnected => {
   // isConnected 为true时表示连接成功
 })
@@ -104,118 +106,74 @@ bridgeInstance.account().then(res => {
   console.log(res);
 })
 res = {
-  "code": 0,
-  "msg": "success",
-  "errors": [],
-  "data": {
-    "accounts": [
-      {
-        "name": "test",
-        "address": "XxajQQtYxnsgQp92oiSeENao9XkmqbEitDD8CJKfDctvAQmH6"
-      }
-     ],
-    "chains": [
-      {
-        "url": "http://13.231.179.27:8000",
-        "isMainChain": true,
-        "chainId": "AELF"
-      },
-      {
-        "url": "http://52.68.97.242:8000",
-        "isMainChain": false,
-        "chainId": "2112"
-      },
-      {
-        "url": "http://52.196.227.200:8000",
-        "isMainChain": false,
-        "chainId": "2113"
-      }
-    ]
-  }
+  "accounts": [
+    {
+      "name": "test",
+      "address": "XxajQQtYxnsgQp92oiSeENao9XkmqbEitDD8CJKfDctvAQmH6"
+    }
+   ],
+  "chains": [
+    {
+      "url": "http://13.231.179.27:8000",
+      "isMainChain": true,
+      "chainId": "AELF"
+    },
+    {
+      "url": "http://52.68.97.242:8000",
+      "isMainChain": false,
+      "chainId": "2112"
+    },
+    {
+      "url": "http://52.196.227.200:8000",
+      "isMainChain": false,
+      "chainId": "2113"
+    }
+  ]
 }
-```
-
-### 调用合约方法(只读与发送交易)
-
-* 发送交易`bridgeInstance.invoke(params)`
-* 合约只读方法`bridgeInstance.invokeRead(params)`
-
-二者参数一致，均需要构造参数
-
-`params`:
-```javascript
-argument = {
-  name: String, // 参数名
-  value: Boolean | String | Object | '...' // 参数值，理论上可谓任意类型 
-}
-
-params = {
-  endpoint: String, // 非必填，可用于指定链节点的URL地址，不填的情况下默认为初始化`AElfBridge`实例时的的选项，如无初始化选项，则钱包App默认为自己存储的主链节点地址
-  contractAddress: String, // 合约的地址
-  contractMethod: String, // 合约的方法
-  arguments: argument[] // 合约方法的参数列表，类型为数组，数组类型为上述的`argument`
-}
-```
-
-示例：
-
-* 调用`Token`合约的`Transfer`方法，发起一笔转账交易
-```javascript
-bridgeInstance.invoke({
-  contractAddress: 'mS8xMLs9SuWdNECkrfQPF8SuRXRuQzitpjzghi3en39C3SRvf', // 合约地址
-  contractMethod: 'Transfer', // 合约方法名
-  arguments: [
-      {
-        name: "transfer",
-        value: {
-          amount: "10000000000",
-          to: "fasatqawag",
-          symbol: "ELF",
-          memo: "transfer ELF"
-        }
-      }
-    ]
-}).then(console.log);
-```
-
-* 调用`Token`合约的`GetNativeTokenInfo`方法，获取native token信息
-```javascript
-bridge.invokeRead({
-  contractAddress: 'mS8xMLs9SuWdNECkrfQPF8SuRXRuQzitpjzghi3en39C3SRvf', // 合约地址
-  contractMethod: 'GetNativeTokenInfo', // 合约方法名
-  arguments: []
-}).then(setResult).catch(setResult);
 ```
 
 ### 调用链API
 
 用于调用链节点的API. API列表可通过`{链地址}/swagger/index.html`查看，目前支持的API可以通过：
-`AElfBridge.getChainApis()`获取支持的列表
+`AElfBridge.getChainApis()`获取支持的列表。支持部分`aelf-sdk`实例下`chain`属性下的方法，具体支持列表可通过`AElfBridge.getChainMethods()`获取。
 
-`bridgeInstance.api(params)`
+`bridgeInstance.chain[methodName](params)`
 
-`params`参数如下：
-```javascript
-argument = {
-  name: String, // 参数名
-  value: Boolean | String | Object | '...' // 参数值，理论上可谓任意类型 
-}
-
-params = {
-  endpoint: String, // 非必填，可用于指定链节点的URL地址，不填的情况下默认为初始化`AElfBridge`实例时的的选项，如无初始化选项，则钱包App默认为自己存储的主链节点地址
-  apiPath: String, // api路径，有效值通过`AElfBridge.getChainApis()`获取支持的值
-  arguments: argument[] // api的参数列表
-}
-```
+`params`参数与`aelf-sdk`实例下`chain`属性中的同名方法一致:
 
 示例：
 
 * 获取区块高度
 ```javascript
-bridgeInstance.api({
-  apiPath: '/api/blockChain/blockHeight', // api路径
-  arguments: []
-}).then(console.log).catch(console.log)
+bridgeInstance.chain.getBlockHeight().then(console.log).catch(console.log)
+```
+
+* 获取区块状态
+```javascript
+bridgeInstance.chain.getChainStatus().then(console.log).catch(console.log)
+```
+
+### 调用合约方法(只读与发送交易)
+
+* 获取合约方法
+* 发送交易
+* 合约只读方法
+
+示例：
+
+* 调用`Token`合约的`Transfer`方法，发起一笔转账交易
+```javascript
+const tokenAddress = 'mS8xMLs9SuWdNECkrfQPF8SuRXRuQzitpjzghi3en39C3SRvf'; // 合约地址可通过零合约的`GetContractAddressByName`只读方法获取
+bridgeInstance.chain.contractAt(tokenAddress).then(async contract => {
+    const tokenInfo = await contract.GetTokenInfo.call({symbol: 'ELF'});
+    const transactionId = await contract.Transfer({
+          amount: "10000000000",
+          to: "fasatqawag",
+          symbol: "ELF",
+          memo: "transfer ELF"
+    });
+    console.log(transactionId);
+})
 ```
 
 ### disconnect-断开连接

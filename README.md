@@ -44,17 +44,17 @@ yarn add aelf-bridge
 
 ### Introduction
 
-The communications between a dApp and the chain need to go through some wallet software. This wallet software could be any client that has implemented the AElf bridge protocol. at the time of writing (2019.12), AElf mobile wallet App has implemented this protocol.
+The communications between a dApp and the chain need to go through some wallet software. This wallet software could be any client that has implemented the AElf bridge protocol. at the time of writing (2020.06), AElf mobile wallet App and `aelf-command` have implemented this protocol.
 
 Since dApps are mostly web applications and web applications can communicate with clients in many ways, this SDK supports two of them:
 
-* postMessage: a dApp will run in a container (`iframe` or mobile Apps' `webview`), and the container needs to overwrite `window.postMessage` method in the dApp, so the dApp and the container can communicate with each other by overwritten `postMessage`.
-* WebSocket(Socket.io): use traditional B/S architecture, communicate by `WebSocket`. SDK uses `Socket.io` to support `WebSocket` communication, and this requires servers need to support `Socket.io` too.
+* postMessage: a dApp will run in a container (`iframe` or mobile Apps' `webview`), and the container needs to overwrite `window.postMessage` method in the dApp, so the dApp and the container can communicate with each other by overwritten `postMessage`. AElf mobile wallet App has implemented this.
+* WebSocket(Socket.io): use traditional B/S architecture, communicate by `WebSocket`. SDK uses `Socket.io` to support `WebSocket` communication, and this requires servers need to support `Socket.io` too. `aelf-command` has implemented this way.
 
 Developers can choose one of them depending on requirements, in the process of development, we provide two ways to support data mock and debugging:
 
-* [aelf-bridge-demo](https://github.com/AElfProject/aelf-bridge-demo): this demo uses `iframe` to overwrite `dapp.html`'s `postMessage` to simulate communication with mobile App.
-* [aelf-command dapp-server](https://github.com/AElfProject/aelf-command): `aelf-command` provides a simple `socket.io` server to support the communication method `socket.io` in `aelf-bridge`, developers can change the communication way to `SOCKET.IO`, and give the URI given by running `aelf-command dapp-server` as an option when initializing `aelf-bridge` instance. Therefore developers can inspect the communications in the Network tab of browser.
+* [aelf-bridge-demo](https://github.com/AElfProject/aelf-bridge-demo): this demo uses `iframe` to overwrite `dapp.html`'s `postMessage` to simulate communication with mobile Apps.
+* [aelf-command dapp-server](https://github.com/AElfProject/aelf-command): `aelf-command` provides a simple `socket.io` server to support the communication method `socket.io` in `aelf-bridge`, developers can change the communication way to `SOCKET.IO`, and give the URI given by running `aelf-command dapp-server` as an option when initializing `aelf-bridge` instance. Therefore, developers can inspect the communications in the Network tab of browser.
 
 ### Initialization
 
@@ -105,122 +105,74 @@ bridgeInstance.account().then(res => {
   console.log(res);
 })
 res = {
-  "code": 0,
-  "msg": "success",
-  "errors": [],
-  "data": {
-    "accounts": [
-      {
-        "name": "test",
-        "address": "XxajQQtYxnsgQp92oiSeENao9XkmqbEitDD8CJKfDctvAQmH6"
-      }
-     ],
-    "chains": [
-      {
-        "url": "http://13.231.179.27:8000",
-        "isMainChain": true,
-        "chainId": "AELF"
-      },
-      {
-        "url": "http://52.68.97.242:8000",
-        "isMainChain": false,
-        "chainId": "2112"
-      },
-      {
-        "url": "http://52.196.227.200:8000",
-        "isMainChain": false,
-        "chainId": "2113"
-      }
-    ]
-  }
+  "accounts": [
+    {
+      "name": "test",
+      "address": "XxajQQtYxnsgQp92oiSeENao9XkmqbEitDD8CJKfDctvAQmH6"
+    }
+   ],
+  "chains": [
+    {
+      "url": "http://13.231.179.27:8000",
+      "isMainChain": true,
+      "chainId": "AELF"
+    },
+    {
+      "url": "http://52.68.97.242:8000",
+      "isMainChain": false,
+      "chainId": "2112"
+    },
+    {
+      "url": "http://52.196.227.200:8000",
+      "isMainChain": false,
+      "chainId": "2113"
+    }
+  ]
 }
-```
-
-### Call contract method (read-only and send transaction)
-
-* Send transaction `bridgeInstance.invoke(params)`
-* Contract read-only method `bridgeInstance.invokeRead(params)`
-
-The two parameters are similar:
-
-`params`:
-
-```javascript
-argument = {
-  name: String, // parameter name
-  value: Boolean | String | Object | '...' // Parameter value, theoretically any Javascript type
-}
-
-params = {
-  endpoint: String, // Optional. It can be used to specify the URL address of the chain node. If it is not filled, it defaults to the option when initializing the `AElfBridge` instance. If there is no initialization option, the wallet App defaults to its own stored primary node address.
-  contractAddress: String, // Contract address
-  contractMethod: String, // Contract method
-  arguments: argument[] /// List of parameters for the contract methods, type is array, array type is the above `argument` type
-}
-```
-
-Example:
-
-* Call the `Transfer` method of the `Token` contract to initiate a transfer transaction
-
-```javascript
-bridgeInstance.invoke({
-  contractAddress: 'mS8xMLs9SuWdNECkrfQPF8SuRXRuQzitpjzghi3en39C3SRvf',
-  contractMethod: 'Transfer',
-  arguments: [
-      {
-        name: "transfer",
-        value: {
-          amount: "10000000000",
-          to: "fasatqawag",
-          symbol: "ELF",
-          memo: "transfer ELF"
-        }
-      }
-    ]
-}).then(console.log);
-```
-
-* Call the `GetNativeTokenInfo` method of the `Token` contract to get the native token information:
-
-```javascript
-bridge.invokeRead({
-  contractAddress: 'mS8xMLs9SuWdNECkrfQPF8SuRXRuQzitpjzghi3en39C3SRvf',
-  contractMethod: 'GetNativeTokenInfo',
-  arguments: []
-}).then(setResult).catch(setResult);
 ```
 
 ### Calling the chain API
 
 API for interacting with the node. The API available methods can be viewed by `{chain address}/swagger/index.html`, to get the currently supported APIs you can call `AElfBridge.getChainApis()`.
 
-`bridgeInstance.api(params)`
-
-The `params` parameters are as follows:
-
-```javascript
-argument = {
-  name: String, // parameter name
-  value: Boolean | String | Object | '...' // Parameter value, theoretically any Javascript type
-}
-
-params = {
-  endpoint: String, // It is not required. It can be used to specify the URL address of the chain node. If it is empty, it defaults to the option given when initializing the `AElfBridge` instance. If there is no initialization option, the wallet App defaults to its own stored primary node address.
-  apiPath: String, // Api path, valid values ​​get the supported values ​​via `AElfBridge.getChainApis()`
-  arguments: argument[] // api parameter list
-}
-```
+Developer can use the methods of `bridgeInstance.chain` to call the api.
 
 Example:
 
 * Get block height
 
 ```javascript
-bridgeInstance.api({
-  apiPath: '/api/blockChain/blockHeight', // Api path
-  arguments: []
-}).then(console.log).catch(console.log)
+bridgeInstance.chain.getBlockHeight().then(console.log).catch(console.log)
+```
+
+* Get chain status
+```javascript
+bridgeInstance.chain.getChainStatus().then(console.log).catch(console.log)
+```
+
+### Call contract method (read-only and send transaction)
+
+* Get contract method list
+* Send transaction
+* Contract read-only method
+
+Example:
+
+* Call the `Transfer` method of the `Token` contract to initiate a transfer transaction
+
+```javascript
+const tokenAddress = 'mS8xMLs9SuWdNECkrfQPF8SuRXRuQzitpjzghi3en39C3SRvf'; // Get contract address by genesis contract method `GetContractAddressByName`
+bridgeInstance.chain.contractAt(tokenAddress).then(async contract => {
+    const tokenInfo = await contract.GetTokenInfo.call({symbol: 'ELF'});
+    const transactionId = await contract.Transfer({
+          amount: "10000000000",
+          to: "fasatqawag",
+          symbol: "ELF",
+          memo: "transfer ELF"
+    });
+    console.log(tokenInfo);
+    console.log(transactionId);
+})
 ```
 
 ### disconnect

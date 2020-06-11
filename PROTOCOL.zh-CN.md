@@ -144,10 +144,9 @@
 
 返回的钱包信息视钱包App情况更改
 
-### invoke/invokeRead 调用合约方法发送交易/只读方法
+### getContractMethods 获取合约方法列表
 
 #### Request
-
 ```javascript
 {
   "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
@@ -173,6 +172,24 @@
 }
 ```
 
+
+### invoke/invokeRead 调用合约方法发送交易/只读方法
+
+#### Request
+
+```javascript
+{
+  "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
+  "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
+  "action": "getContractMethods",
+  "params": {
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
+    "endpoint": "", // 链节点地址，非必填，为空或不传时，钱包App使用自己存储的主链地址
+    "address": "pykr77ft9UUKJZLVq15wCH8PinBSjVRQ12sD1Ayq92mKFsJ1i" // 合约地址
+  }
+}
+```
+
 #### Response
 
 ```javascript
@@ -182,9 +199,10 @@
     "code": 0, // 0为返回正确，其余值表示返回错误
     "msg": "success", // 简单的错误信息
     "error": [], // 如果有错误，则将错误填充到数组中
-    "data": {
-      "TransactionId": "1231321321321321"
-    } // 实际的返回内容，直接将对应合约方法的返回作为`data`的值
+    "data": [
+        "ChangeMethodFeeController",
+        "CurrentContractSerialNumber"
+    ] // 数据为合约方法列表
   }
 }
 ```
@@ -201,6 +219,7 @@
     "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
     "endpoint": "", // 链节点地址，非必填，为空或不传时使用钱包端存储的主链地址
     "apiPath": "/api/blockChain/blockHeight", // api路径
+    "methodName": "getBlockHeight",
     "arguments": [] // 传递的参数，实际为`aelf.chain.{method}`方法使用的参数
   }
 }

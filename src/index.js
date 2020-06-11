@@ -1,6 +1,6 @@
 /**
- * @file index
- * @author
+ * @file aelf isomorphism
+ * @author atom-yang
  */
 import MessageChannel from './messageChannel';
 import Proxy from './proxy';
@@ -11,8 +11,11 @@ import StorageService from './utils/storage';
 import {
   PROXY_TYPE,
   CHANNEL_TYPE,
-  CHAIN_APIS
+  CHAIN_APIS,
+  CHAIN_METHODS
 } from './common/constants';
+import Chain from './chain';
+import ContractFactory from './contract';
 
 const defaultOptions = {
   // common options
@@ -40,7 +43,11 @@ export default class Bridge {
   }
 
   static getChainApis() {
-    return Object.keys(CHAIN_APIS);
+    return CHAIN_APIS;
+  }
+
+  static getChainMethods() {
+    return [...CHAIN_METHODS.map(v => v.methodName), 'contractAt'];
   }
 
   constructor(options = defaultOptions) {
@@ -50,6 +57,9 @@ export default class Bridge {
       ...options
     };
     this.request = new MessageChannel(this.options);
+    this.connected = false;
+    this.chain = new Chain(this);
+    this.chain.contractAt = this.contractAt.bind(this);
   }
 
   connect() {
@@ -62,50 +72,65 @@ export default class Bridge {
   }
 
   disconnect() {
-    return this.request.disconnect();
-  }
-
-  sendMessage(action, params) {
-    return this.request.sendMessage({
-      action,
-      params
+    return this.request.disconnect().then(res => {
+      this.connected = false;
+      return res;
     });
   }
 
-  invoke(params) {
-    return this.request.sendMessage({
-      action: 'invoke',
-      params: {
-        endpoint: this.options.endpoint,
-        ...params
+  async contractAt(address) {
+    const list = await this.sendMessage('getContractMethods', {
+      endpoint: this.options.endpoint,
+      address
+    });
+    const r = new ContractFactory(address, list, this);
+    return r.at();
+  }
+
+  async sendMessage(action, params) {
+    if (!this.connected) {
+      const connected = await this.connect();
+      if (!connected) {
+        throw new Error('Connection failed');
       }
+      this.connected = true;
+    }
+    const res = await this.request.sendMessage({
+      action,
+      params
+    });
+    const {
+      code,
+      data
+    } = res;
+    if (+code === 0) {
+      return data;
+    }
+    throw res;
+  }
+
+  invoke(params) {
+    return this.sendMessage('invoke', {
+      endpoint: this.options.endpoint,
+      ...params
     });
   }
 
   invokeRead(params) {
-    return this.request.sendMessage({
-      action: 'invokeRead',
-      params: {
-        endpoint: this.options.endpoint,
-        ...params
-      }
+    return this.sendMessage('invokeRead', {
+      endpoint: this.options.endpoint,
+      ...params
     });
   }
 
   api(params) {
-    return this.request.sendMessage({
-      action: 'api',
-      params: {
-        endpoint: this.options.endpoint,
-        ...params
-      }
+    return this.sendMessage('api', {
+      endpoint: this.options.endpoint,
+      ...params
     });
   }
 
   account() {
-    return this.request.sendMessage({
-      action: 'account',
-      params: {}
-    });
+    return this.sendMessage('account', {});
   }
 }
