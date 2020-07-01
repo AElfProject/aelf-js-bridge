@@ -147,35 +147,6 @@
 ### getContractMethods 获取合约方法列表
 
 #### Request
-```javascript
-{
-  "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
-  "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
-  "action": "invoke", // 调用合约只读方法为`invokeRead`
-  "params": {
-    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
-    "endpoint": "", // 链节点地址，非必填，为空或不传时，钱包App使用自己存储的主链地址
-    "contractAddress": "qweqweqeq", // 合约地址
-    "contractMethod": "Transfer", // 合约方法名
-    "arguments": [
-      {
-        "name": "transfer",
-        "value": {
-          "amount": "10000000000",
-          "to": "fasatqawag",
-          "symbol": "ELF",
-          "memo": "transfer ELF"
-        }
-      }
-    ] // 合约方法参数, 是一个数组，可支持0到任意多个参数
-  }
-}
-```
-
-
-### invoke/invokeRead 调用合约方法发送交易/只读方法
-
-#### Request
 
 ```javascript
 {
@@ -203,6 +174,34 @@
         "ChangeMethodFeeController",
         "CurrentContractSerialNumber"
     ] // 数据为合约方法列表
+  }
+}
+```
+
+### invoke/invokeRead 调用合约方法发送交易/只读方法
+
+#### Request
+```javascript
+{
+  "id": "7e96904c3fcc42c1b4d0582d4b9b3a31",
+  "appId": "401a73193a7949f895fde6236f194f77", // app id, 用于区分dapp，随机数生成的32位hex，如果localStorage中有，则获取，如果没有，则不获取
+  "action": "invoke", // 调用合约只读方法为`invokeRead`
+  "params": {
+    "timestamp": 1574309260, // unix timestamp, 时间戳用于校验请求时间，防止通信被窃取，用于重复发送请求，超出合法时间的请求应该返回错误的信息，不允许进行交易
+    "endpoint": "", // 链节点地址，非必填，为空或不传时，钱包App使用自己存储的主链地址
+    "contractAddress": "qweqweqeq", // 合约地址
+    "contractMethod": "Transfer", // 合约方法名
+    "arguments": [
+      {
+        "name": "transfer",
+        "value": {
+          "amount": "10000000000",
+          "to": "fasatqawag",
+          "symbol": "ELF",
+          "memo": "transfer ELF"
+        }
+      }
+    ] // 合约方法参数, 是一个数组，可支持0到任意多个参数
   }
 }
 ```
