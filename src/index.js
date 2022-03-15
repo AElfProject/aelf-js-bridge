@@ -104,7 +104,7 @@ export default class Bridge {
       data
     } = res;
     if (+code === 0) {
-      return data;
+      return data || 'null';
     }
     throw res;
   }
