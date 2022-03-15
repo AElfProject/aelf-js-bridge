@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/AElfProject/aelf-bridge/compare/v0.0.9...v0.0.10) (2022-03-15)
+
+
+### Bug Fixes
+
+* 🐛 fix data null ([e5e0a3d](https://github.com/AElfProject/aelf-bridge/commit/e5e0a3df0e750dddb3ea61df4ce735e190f11ae6))
+
 ### [0.0.9](https://github.com/AElfProject/aelf-bridge/compare/v0.0.8...v0.0.9) (2020-06-11)
 
 
