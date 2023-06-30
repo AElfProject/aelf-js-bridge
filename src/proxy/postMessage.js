@@ -11,6 +11,8 @@ import {
   serializeMessage,
   deserializeMessage
 } from '../utils/utils';
+import { window } from '../utils/storage';
+
 
 const eventType = 'message';
 
