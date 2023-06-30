@@ -4,6 +4,7 @@
  */
 import uuidv4 from 'uuid/v4';
 import uuidv5 from 'uuid/v5';
+import { window } from './storage';
 
 export const randomId = () => uuidv4().replace(/-/g, '');
 

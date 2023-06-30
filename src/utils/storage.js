@@ -29,3 +29,9 @@ export default class StorageService {
     return getWindow().localStorage.removeItem('appId');
   }
 }
+
+const globalWindow = getWindow();
+
+export {
+  globalWindow as window
+};
