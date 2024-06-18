@@ -4,9 +4,9 @@
  */
 
 /* eslint-env node */
-const merge = require('webpack-merge');
-const baseConfig = require('./webpack.common');
-const {OUTPUT_PATH} = require('./utils');
+import { merge } from 'webpack-merge';
+import baseConfig from './webpack.common.js';
+import { OUTPUT_PATH } from './utils.js';
 
 const browserConfig = {
   mode: 'production',
@@ -19,19 +19,16 @@ const browserConfig = {
     umdNamedDefine: true
   },
   resolve: {
-    alias: {}
-  },
-  node: {
-    stream: true
+    fallback: {
+      stream: 'stream-browserify'
+    }
   },
   target: 'web',
   optimization: {
     removeEmptyChunks: true,
-    occurrenceOrder: true,
     sideEffects: true,
     minimize: true
   }
 };
 
-
-module.exports = merge(baseConfig, browserConfig);
+export default merge(baseConfig, browserConfig);

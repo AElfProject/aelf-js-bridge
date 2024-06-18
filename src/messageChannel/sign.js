@@ -3,11 +3,7 @@
  * @author atom-yang
  */
 import * as elliptic from 'elliptic';
-import {
-  getUnixTimestamp,
-  serializeMessage,
-  deserializeMessage
-} from '../utils/utils';
+import { getUnixTimestamp, serializeMessage, deserializeMessage } from '../utils/utils.js';
 
 const encryptAlgorithm = 'secp256k1';
 const ec = elliptic.ec(encryptAlgorithm);
@@ -54,11 +50,7 @@ export default class Sign {
       if (+result.code !== 0) {
         return false;
       }
-      const {
-        random: remoteRandom,
-        signature: remoteSignature,
-        publicKey: remotePublicKey
-      } = result.data;
+      const { random: remoteRandom, signature: remoteSignature, publicKey: remotePublicKey } = result.data;
       this.remotePublicKeyEncoded = remotePublicKey;
       this.remoteKeyPair = ec.keyFromPublic(remotePublicKey, 'hex');
       const isConnected = this.verify(remoteRandom, remoteSignature);
@@ -75,11 +67,7 @@ export default class Sign {
 
   sign(msg) {
     const signedMsg = this.keypair.sign(msg);
-    return [
-      signedMsg.r.toString(16, 64),
-      signedMsg.s.toString(16, 64),
-      `0${signedMsg.recoveryParam.toString()}`
-    ].join('');
+    return [signedMsg.r.toString(16, 64), signedMsg.s.toString(16, 64), `0${signedMsg.recoveryParam.toString()}`].join('');
   }
 
   verify(msg, signature) {
@@ -116,13 +104,8 @@ export default class Sign {
       ...message,
       params
     });
-    const {
-      result = {}
-    } = response;
-    const {
-      originalResult,
-      signature: remoteSignature
-    } = result;
+    const { result = {} } = response;
+    const { originalResult, signature: remoteSignature } = result;
     const responseData = deserializeMessage(originalResult);
     if (!this.verify(Buffer.from(originalResult, 'base64'), remoteSignature)) {
       throw new Error(`Verify response error, the response ${JSON.stringify(responseData, null, 2)} is not valid`);

@@ -3,13 +3,9 @@
  * @author atom-yang
  */
 import io from 'socket.io-client';
-import Base from './base';
-import {
-  PROXY_TYPE
-} from '../common/constants';
-import {
-  randomId
-} from '../utils/utils';
+import Base from './base.js';
+import { PROXY_TYPE } from '../common/constants.js';
+import { randomId } from '../utils/utils.js';
 
 const defaultOptions = {
   socketUrl: 'http://localhost:50845',
@@ -36,7 +32,7 @@ export default class SocketIO extends Base {
 
     this.socket.on('connection', data => {
       if (data !== 'success') {
-        throw new Error('can\'t connect to socket');
+        throw new Error("can't connect to socket");
       }
     });
 

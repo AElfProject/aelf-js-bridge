@@ -37,7 +37,7 @@ export default class ContractMethod {
     const { send } = this;
     send.call = this.call;
     send.send = this.send;
-    // eslint-disable-next-line no-param-reassign
+
     contract[this.method] = send;
   }
 }

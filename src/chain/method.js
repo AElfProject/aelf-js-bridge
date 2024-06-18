@@ -4,14 +4,7 @@
  */
 
 export default class ChainMethod {
-  constructor(
-    {
-      methodName,
-      api,
-      params = [],
-      request
-    }
-  ) {
+  constructor({ methodName, api, params = [], request }) {
     this.methodName = methodName;
     this.api = api;
     this.params = params;

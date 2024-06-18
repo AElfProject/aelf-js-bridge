@@ -2,20 +2,13 @@
  * @file aelf isomorphism
  * @author atom-yang
  */
-import MessageChannel from './messageChannel';
-import Proxy from './proxy';
-import {
-  getUUIDForUrl
-} from './utils/utils';
-import StorageService from './utils/storage';
-import {
-  PROXY_TYPE,
-  CHANNEL_TYPE,
-  CHAIN_APIS,
-  CHAIN_METHODS
-} from './common/constants';
-import Chain from './chain';
-import ContractFactory from './contract';
+import MessageChannel from './messageChannel/index.js';
+import Proxy from './proxy/index.js';
+import { getUUIDForUrl } from './utils/utils.js';
+import StorageService from './utils/storage.js';
+import { PROXY_TYPE, CHANNEL_TYPE, CHAIN_APIS, CHAIN_METHODS } from './common/constants.js';
+import Chain from './chain/index.js';
+import ContractFactory from './contract/index.js';
 
 const defaultOptions = {
   // common options
@@ -99,10 +92,7 @@ export default class Bridge {
       action,
       params
     });
-    const {
-      code,
-      data
-    } = res;
+    const { code, data } = res;
     if (+code === 0) {
       return data || 'null';
     }

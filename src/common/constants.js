@@ -4,7 +4,6 @@
  */
 export const PROXY_TYPE = {
   postMessage: 'POST_MESSAGE',
-  webSocket: 'WEB_SOCKET',
   socketIo: 'SOCKET.IO'
 };
 

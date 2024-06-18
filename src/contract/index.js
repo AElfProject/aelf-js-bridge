@@ -2,8 +2,8 @@
  * @file contract
  * @author atom-yang
  */
-import ContractMethod from './method';
-import Contract from './contract';
+import ContractMethod from './method.js';
+import Contract from './contract.js';
 
 export default class ContractFactory {
   constructor(contractAddress, methodList, instance) {

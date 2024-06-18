@@ -2,15 +2,9 @@
  * @file connection with postMessage
  * @author atom-yang
  */
-import Base from './base';
-import {
-  PROXY_TYPE
-} from '../common/constants';
-import {
-  randomId,
-  serializeMessage,
-  deserializeMessage
-} from '../utils/utils';
+import Base from './base.js';
+import { PROXY_TYPE } from '../common/constants.js';
+import { randomId, serializeMessage, deserializeMessage } from '../utils/utils.js';
 
 const eventType = 'message';
 
@@ -89,11 +83,14 @@ export default class PostMessage extends Base {
     };
     window.addEventListener(eventType, this.eventHandlers[id]);
     if (timeout && timeout > 0 && !this.isCheckingInjectedPostMessage) {
-      timer = setTimeout(() => {
-        reject('Time out');
-        window.removeEventListener(eventType, this.eventHandlers[id]);
-        delete this.eventHandlers[id];
-      }, parseInt(timeout, 10));
+      timer = setTimeout(
+        () => {
+          reject('Time out');
+          window.removeEventListener(eventType, this.eventHandlers[id]);
+          delete this.eventHandlers[id];
+        },
+        parseInt(timeout, 10)
+      );
     }
   }
 }
