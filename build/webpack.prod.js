@@ -13,15 +13,17 @@ const browserConfig = {
   output: {
     path: OUTPUT_PATH,
     filename: 'aelf-bridge.js',
-    library: 'AElfBridge',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    umdNamedDefine: true
+    library: {
+      type: 'module'
+    }
   },
   resolve: {
     fallback: {
       stream: 'stream-browserify'
     }
+  },
+  experiments: {
+    outputModule: true
   },
   target: 'web',
   optimization: {

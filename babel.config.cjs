@@ -3,7 +3,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        modules: false,
+        // modules: false,
         targets: '> 1%, not dead'
       }
     ]
@@ -12,6 +12,11 @@ module.exports = {
     'babel-plugin-transform-import-meta',
     ['@babel/plugin-syntax-import-attributes', { deprecatedAssertSyntax: true }],
     '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-transform-runtime'
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        useESModules: true
+      }
+    ]
   ]
 };
