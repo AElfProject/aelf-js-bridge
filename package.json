@@ -1,18 +1,21 @@
 {
   "name": "aelf-bridge",
-  "version": "0.0.10",
+  "version": "0.0.11-alpha.3",
   "description": "A library to interact with native apps",
   "main": "dist/aelf-bridge.js",
   "browser": "dist/aelf-bridge.js",
   "unpkg": "dist/aelf-bridge.js",
   "jsdelivr": "dist/aelf-bridge.js",
+  "type": "module",
   "scripts": {
-    "build": "npm run clean && webpack --progress --colors --display-chunks --config ./build/webpack.prod.js",
+    "build": "npm run clean && webpack --progress --stats=verbose --config ./build/webpack.prod.js",
     "release": "standard-version -a",
     "commit": "git-cz",
     "lint": "eslint src",
     "analyze": "npm run clean && webpack --config ./build/webpack.analyze.js",
-    "clean": "rimraf dist/*"
+    "clean": "rimraf dist/*",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
   },
   "author": "atom-yang",
   "files": [
@@ -29,51 +32,62 @@
     "url": "git+https://github.com/AElfProject/aelf-bridge.git"
   },
   "license": "MIT",
+  "devEngines": {
+    "node": ">=18.18.0"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "dependencies": {
-    "@babel/runtime": "^7.6.3",
+    "@babel/runtime": "^7.24.7",
     "browserify-cipher": "^1.0.1",
     "create-hmac": "^1.1.7",
-    "elliptic": "^6.5.1",
-    "socket.io-client": "^2.3.0",
-    "uuid": "^3.3.3"
+    "elliptic": "^6.5.5",
+    "socket.io-client": "^4.7.5",
+    "stream-browserify": "^3.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.6.3",
-    "babel-eslint": "^10.0.3",
-    "babel-loader": "^8.0.6",
+    "@babel/core": "^7.24.7",
+    "@babel/eslint-parser": "^7.24.7",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-syntax-import-attributes": "^7.24.7",
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@eslint/compat": "^1.1.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^9.1.3",
+    "babel-plugin-transform-import-meta": "^2.2.1",
     "bundle-analyzer": "^0.0.6",
-    "chalk": "^2.4.2",
-    "commitizen": "^4.0.3",
-    "cross-env": "^6.0.3",
-    "cz-conventional-changelog": "^3.0.2",
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.18.2",
-    "file-loader": "^4.2.0",
-    "git-cz": "^3.2.1",
-    "glob": "^7.1.4",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
-    "rimraf": "^3.0.0",
-    "standard-version": "^9.1.1",
+    "chalk": "^5.3.0",
+    "commitizen": "^4.3.0",
+    "commitlint": "^19.3.0",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "file-loader": "^6.2.0",
+    "git-cz": "^4.9.0",
+    "glob": "^10.4.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "rimraf": "^5.0.7",
+    "standard-version": "^9.5.0",
     "unused-files-webpack-plugin": "^3.4.0",
-    "webpack": "^4.41.1",
-    "webpack-bundle-analyzer": "^3.5.2",
-    "webpack-cli": "^3.3.9",
-    "webpack-merge": "^4.2.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "node scripts/verify-commit-msg.js"
-    }
+    "webpack": "^5.92.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0"
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "src/*.js": "eslint"
   },
   "config": {
     "commitizen": {

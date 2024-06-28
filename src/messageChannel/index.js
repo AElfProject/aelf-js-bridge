@@ -2,12 +2,10 @@
  * @file message channel
  * @author atom-yang
  */
-import Proxy from '../proxy';
-import Sign from './sign';
-import Encrypt from './encrypt';
-import {
-  CHANNEL_TYPE
-} from '../common/constants';
+import Proxy from '../proxy/index.js';
+import Sign from './sign.js';
+import Encrypt from './encrypt.js';
+import { CHANNEL_TYPE } from '../common/constants.js';
 
 const MESSAGE_CHANNELS = {
   [CHANNEL_TYPE.sign]: Sign,

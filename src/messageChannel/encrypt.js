@@ -4,13 +4,8 @@
  */
 import * as elliptic from 'elliptic';
 import { createCipheriv, createDecipheriv } from 'browserify-cipher';
-import {
-  randomId,
-  serializeMessage,
-  deserializeMessage,
-  getUnixTimestamp
-} from '../utils/utils';
-import HKDF from '../utils/hkdf';
+import { randomId, serializeMessage, deserializeMessage, getUnixTimestamp } from '../utils/utils.js';
+import HKDF from '../utils/hkdf.js';
 
 const encryptAlgorithm = 'curve25519';
 const cipher = 'aes-256-cbc';
@@ -39,10 +34,7 @@ export default class Encrypt {
   encrypt(data, passpharse) {
     const iv = randomId();
     const aesCipher = createCipheriv(this.cipher, passpharse, Buffer.from(iv, 'hex'));
-    const encrypted = Buffer.concat([
-      aesCipher.update(Buffer.from(data, 'base64')),
-      aesCipher.final()
-    ]);
+    const encrypted = Buffer.concat([aesCipher.update(Buffer.from(data, 'base64')), aesCipher.final()]);
     return {
       encrypted: encrypted.toString('base64'),
       iv
@@ -58,10 +50,7 @@ export default class Encrypt {
    */
   decrypt(encrypted, passpharse, iv) {
     const decipher = createDecipheriv(this.cipher, passpharse, Buffer.from(iv, 'hex'));
-    const decrypted = Buffer.concat([
-      decipher.update(Buffer.from(encrypted, 'base64')),
-      decipher.final()
-    ]).toString('base64');
+    const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted, 'base64')), decipher.final()]).toString('base64');
     return decrypted;
   }
 
@@ -95,10 +84,7 @@ export default class Encrypt {
       if (+result.code !== 0) {
         return false;
       }
-      const {
-        publicKey: remotePublicKey,
-        random
-      } = result.data;
+      const { publicKey: remotePublicKey, random } = result.data;
       this.remotePublicKeyEncoded = remotePublicKey;
       // todo: 修改为对应的ec
       this.remoteKeyPair = ec.keyFromPublic(this.remotePublicKeyEncoded, 'hex');
@@ -122,10 +108,7 @@ export default class Encrypt {
       ...message.params,
       timestamp: getUnixTimestamp()
     });
-    const {
-      encrypted,
-      iv
-    } = this.encrypt(originalParams, this.derivedKey);
+    const { encrypted, iv } = this.encrypt(originalParams, this.derivedKey);
     const params = {
       encryptedParams: encrypted, // base64 encoded
       iv // hex encoded
@@ -134,9 +117,7 @@ export default class Encrypt {
       ...message,
       params
     });
-    const {
-      result = {}
-    } = response;
+    const { result = {} } = response;
     const {
       encryptedResult, // base64 encoded
       iv: remoteIv // hex encoded

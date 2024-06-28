@@ -2,9 +2,7 @@
  * @file base class methods
  * @author atom-yang
  */
-import {
-  PROXY_TYPE
-} from '../common/constants';
+import { PROXY_TYPE } from '../common/constants.js';
 
 const defaultProxyType = PROXY_TYPE.postMessage;
 

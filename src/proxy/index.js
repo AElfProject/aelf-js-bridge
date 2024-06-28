@@ -2,15 +2,13 @@
  * @file connection proxy
  * @author atom-yang
  */
-import PostMessage from './postMessage';
-import SocketIO from './socketIO';
-import WS from './ws';
-import { PROXY_TYPE } from '../common/constants';
+import PostMessage from './postMessage.js';
+import SocketIO from './socketIO.js';
+import { PROXY_TYPE } from '../common/constants.js';
 
 const PROXIES = {
   [PROXY_TYPE.postMessage]: PostMessage,
-  [PROXY_TYPE.socketIo]: SocketIO,
-  [PROXY_TYPE.webSocket]: WS
+  [PROXY_TYPE.socketIo]: SocketIO
 };
 
 const defaultOptions = {
@@ -22,9 +20,7 @@ export default class Proxy {
     return PROXIES;
   }
 
-  constructor(
-    options = defaultOptions
-  ) {
+  constructor(options = defaultOptions) {
     this.options = {
       ...defaultOptions,
       ...options

@@ -3,7 +3,7 @@
  * @author atom-yang
  * @link https://asecuritysite.com/encryption/HKDF
  */
-import createHmac from 'create-hmac/browser';
+import createHmac from 'create-hmac/browser.js';
 
 export default class HKDF {
   static hashList = {

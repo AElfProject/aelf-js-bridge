@@ -2,8 +2,7 @@
  * @file utils
  * @author atom-yang
  */
-import uuidv4 from 'uuid/v4';
-import uuidv5 from 'uuid/v5';
+import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
 
 export const randomId = () => uuidv4().replace(/-/g, '');
 

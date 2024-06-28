@@ -4,34 +4,33 @@
  */
 
 /* eslint-env node */
-const merge = require('webpack-merge');
-const baseConfig = require('./webpack.common');
-const {OUTPUT_PATH} = require('./utils');
+import { merge } from 'webpack-merge';
+import baseConfig from './webpack.common.js';
+import { OUTPUT_PATH } from './utils.js';
 
 const browserConfig = {
   mode: 'production',
   output: {
     path: OUTPUT_PATH,
     filename: 'aelf-bridge.js',
-    library: 'AElfBridge',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    umdNamedDefine: true
+    library: {
+      type: 'module'
+    }
   },
   resolve: {
-    alias: {}
+    fallback: {
+      stream: 'stream-browserify'
+    }
   },
-  node: {
-    stream: true
+  experiments: {
+    outputModule: true
   },
   target: 'web',
   optimization: {
     removeEmptyChunks: true,
-    occurrenceOrder: true,
     sideEffects: true,
     minimize: true
   }
 };
 
-
-module.exports = merge(baseConfig, browserConfig);
+export default merge(baseConfig, browserConfig);
