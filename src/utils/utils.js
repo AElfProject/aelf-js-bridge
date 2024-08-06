@@ -3,6 +3,8 @@
  * @author atom-yang
  */
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
+import { window } from './storage.js';
+
 
 export const randomId = () => uuidv4().replace(/-/g, '');
 

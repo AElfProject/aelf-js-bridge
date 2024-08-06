@@ -5,6 +5,8 @@
 import Base from './base.js';
 import { PROXY_TYPE } from '../common/constants.js';
 import { randomId, serializeMessage, deserializeMessage } from '../utils/utils.js';
+import { window } from '../utils/storage.js';
+
 
 const eventType = 'message';
 
