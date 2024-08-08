@@ -6,7 +6,7 @@
  */
 
 /*!
- * aelf-bridge.js v0.0.11-alpha.2
+ * aelf-bridge.js v0.0.11-alpha.4
  * (c) 2019-2024 AElf
  * Released under MIT License
  */
