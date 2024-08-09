@@ -13,7 +13,7 @@ English | [中文](./README.zh-CN.md)
   </a>
 </p>
 
- | Branch       | Tests           | Coverage       |
+ | Branch       | Test          | Coverage       |
 |--------------|-----------------|----------------|
 | `feature/ssr-window` | ![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/aelf-lxy/aelf-js-bridge/feature/badge-json/feature-ssr-window-test-results.json) | ![Coverage](https://aelf-lxy.github.io/aelf-js-bridge/badge.svg) |
 
