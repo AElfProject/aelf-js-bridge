@@ -8,9 +8,9 @@ English | [中文](./README.zh-CN.md)
   </a>
   <img alt="NPM" src="https://img.shields.io/npm/l/aelf-bridge">
   <a href="http://commitizen.github.io/cz-cli/"><img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg"></a>
-  <!-- <a href="https://github.com/AElfProject/aelf-web-login/actions/workflows/publish.yml">
-    <img alt="coverage" src="https://github.com/AElfProject/aelf-web-login/actions/workflows/publish.yml/badge.svg">
-  </a> -->
+  <a href="https://github.com/aelf-lxy/aelf-js-bridge/actions/workflows/publish.yml">
+    <img alt="coverage" src="https://github.com/aelf-lxy/aelf-js-bridge/actions/workflows/publish.yml/badge.svg">
+  </a>
 </p>
 
 ## Table of Contents
