@@ -1,0 +1,19 @@
+name: Test Badge
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - feature/ssr-window
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run frontend ci action
+        uses: AElfProject/frontend-ci-action@v0.0.1
+        with:
+          commit-token: ${{ secrets.COMMIT_TOKEN }}
+          branch-name: "feature/badge-json"
