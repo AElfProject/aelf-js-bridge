@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - master
-      - feature/badge
   pull_request:
     branches:
       - master
-      - feature/badge
 
 jobs:
   test:
