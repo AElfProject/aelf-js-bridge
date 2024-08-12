@@ -2,16 +2,9 @@ name: Publish
 env:
   CI: true
 on:
-  push:
-    branches:
-      - master
-      - feature/badge
-    tags:
-      - '!*'
   pull_request:
     branches:
       - master
-      - feature/badge
 jobs:
   release:
     name: Setup
