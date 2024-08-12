@@ -32,6 +32,4 @@ export default class StorageService {
 
 const globalWindow = getWindow();
 
-export {
-  globalWindow as window
-};
+export { globalWindow as window };

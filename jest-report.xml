@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="10" failures="0" errors="0" time="0.869">
+  <testsuite name="randomId" errors="0" failures="0" skipped="0" timestamp="2024-08-12T05:50:09" time="0.562" tests="6">
+    <testcase classname="randomId should generate a valid UUID without dashes" name="randomId should generate a valid UUID without dashes" time="0.002">
+    </testcase>
+    <testcase classname="isValidHexString validates hex strings correctly" name="isValidHexString validates hex strings correctly" time="0.001">
+    </testcase>
+    <testcase classname="serializeMessage serializes data correctly" name="serializeMessage serializes data correctly" time="0.001">
+    </testcase>
+    <testcase classname="deserializeMessage deserializes data correctly" name="deserializeMessage deserializes data correctly" time="0.001">
+    </testcase>
+    <testcase classname="getUnixTimestamp returns the correct Unix timestamp" name="getUnixTimestamp returns the correct Unix timestamp" time="0">
+    </testcase>
+    <testcase classname="getUUIDForUrl generates a consistent UUID for the same URL" name="getUUIDForUrl generates a consistent UUID for the same URL" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="StorageService" errors="0" failures="0" skipped="0" timestamp="2024-08-12T05:50:10" time="0.032" tests="4">
+    <testcase classname="StorageService setAppId sets the appId in localStorage" name="StorageService setAppId sets the appId in localStorage" time="0.001">
+    </testcase>
+    <testcase classname="StorageService getAppId returns the appId from localStorage" name="StorageService getAppId returns the appId from localStorage" time="0.001">
+    </testcase>
+    <testcase classname="StorageService removeAppKey removes the appId from localStorage" name="StorageService removeAppKey removes the appId from localStorage" time="0.003">
+    </testcase>
+    <testcase classname="StorageService removes global window object and still works" name="StorageService removes global window object and still works" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>
