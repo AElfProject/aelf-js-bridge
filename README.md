@@ -2,6 +2,26 @@
 
 English | [中文](./README.zh-CN.md)
 
+<p>
+  <a href="https://nodejs.org/download/">
+    <img alt="Node version" src="https://img.shields.io/node/v/aelf-bridge.svg">
+  </a>
+  <img alt="NPM" src="https://img.shields.io/npm/l/aelf-bridge">
+  <a href="http://commitizen.github.io/cz-cli/"><img alt="Commitizen friendly" src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg"></a>
+  <a href="https://github.com/aelf-lxy/aelf-js-bridge/actions/workflows/publish.yml">
+    <img alt="coverage" src="https://github.com/aelf-lxy/aelf-js-bridge/actions/workflows/publish.yml/badge.svg">
+  </a>
+</p>
+
+ | Branch       | Tests          | Coverage       |
+|--------------|-----------------|----------------|
+| `feature/ssr-window` | ![Tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/aelf-lxy/aelf-js-bridge/feature/badge-json/feature-ssr-window-test-results.json) | ![Coverage](https://aelf-lxy.github.io/aelf-js-bridge/badge.svg) |
+
+
+
+
+## Descriptions
+
 ## Table of Contents
   - [Introduction](#introduction)
   - [Installation](#installation)
