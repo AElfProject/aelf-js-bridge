@@ -2,9 +2,11 @@ name: Publish
 env:
   CI: true
 on:
-  pull_request:
+  push:
     branches:
       - master
+    tags:
+      - '!*'
 jobs:
   release:
     name: Setup
