@@ -4,12 +4,14 @@ env:
 on:
   push:
     branches:
-      - feature/ssr-window
+      - master
+      - feature/badge
     tags:
       - '!*'
   pull_request:
     branches:
-      - feature/ssr-window
+      - master
+      - feature/badge
 jobs:
   release:
     name: Setup

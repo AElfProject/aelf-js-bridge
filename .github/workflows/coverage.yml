@@ -3,10 +3,12 @@ name: Unit Test Coverage
 on:
   push:
     branches:
-      - feature/ssr-window
+      - master
+      - feature/badge
   pull_request:
     branches:
-      - feature/ssr-window
+      - master
+      - feature/badge
 
 jobs:
   test:
